@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Gallery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .header-bg-gradient {
+            background-image: linear-gradient(to right, #065F46, #047857);
+            transition: background-image 5s ease-in-out;
+        }
+        .nav-bg {
+            background-color: #047857;
+            transition: background-color 5s ease-in-out;
+        }
+        .image-container {
+            width: 100%;
+            padding-top: 66.66%; /* 3:2 Aspect Ratio */
+            position: relative;
+            overflow: hidden;
+        }
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery-item:hover .image-container img {
+            transform: scale(1.05);
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        
+        body.dark-mode .section-title {
+            color: #d1d5db;
+            border-color: #fcd34d;
+        }
+        
+        body.dark-mode .card-bg {
+            background-color: #2d3748;
+            color: #e2e8f0;
+        }
+        
+        body.dark-mode .card-title {
+            color: #fcd34d;
+        }
+        
+        body.dark-mode .card-text {
+            color: #cbd5e0;
+        }
+        
+        body.dark-mode #search-input {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+        
+        body.dark-mode #search-btn svg {
+            color: #a0aec0;
+        }
+        
+        body.dark-mode #nav {
+            background-color: #2f855a;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Audio Element -->
+    <audio id="background-music" loop>
+        <source src="https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Header Section -->
+    <header id="header" class="header-bg-gradient shadow-xl py-8 sm:py-12 px-4 sm:px-6">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="text-center sm:text-left mb-4 sm:mb-0 flex items-center">
+                <!-- Kenyan Wildlife Logo -->
+                <img src="https://placehold.co/120x120/065F46/FFFFFF?text=KENYA" alt="Kenyan Wildlife Logo" class="w-16 h-16 sm:w-20 sm:h-20 mr-4 rounded-full shadow-lg border-2 border-white">
+                <div>
+                    <h1 class="text-4xl sm:text-5xl font-bold text-white tracking-wide">
+                        <span class="section-title">Kenyan Wildlife Gallery</span>
+                    </h1>
+                    <p class="text-white text-opacity-80 mt-1 sm:mt-2 text-sm italic font-light">
+                        A photographic journey through Kenya's magnificent fauna.
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0">
+                <!-- Search Bar -->
+                <div class="relative w-full max-w-sm">
+                    <input type="text" id="search-input" placeholder="Search wildlife..." class="w-full px-4 py-2 pl-10 rounded-full text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                    <button id="search-btn" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Dark Mode Toggle Button -->
+                <button id="theme-toggle" class="bg-yellow-400 text-emerald-800 font-bold py-2 px-4 rounded-full shadow-lg hover:bg-yellow-500 transition-colors duration-300">
+                    Toggle Dark Mode
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav id="nav" class="bg-emerald-700 py-3 sm:py-4 px-4 sm:px-6 shadow-md nav-bg">
+        <div class="container mx-auto">
+            <ul class="flex flex-wrap justify-center sm:space-x-8 text-white">
+                <li><a href="#big-5" class="text-lg hover:text-yellow-400 font-semibold transition-colors duration-300 px-3 py-2 rounded-lg">Big 5</a></li>
+                <li><a href="#birds" class="text-lg hover:text-yellow-400 font-semibold transition-colors duration-300 px-3 py-2 rounded-lg">Birds</a></li>
+                <li><a href="#marine-life" class="text-lg hover:text-yellow-400 font-semibold transition-colors duration-300 px-3 py-2 rounded-lg">Marine Life</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Gallery Section -->
+    <main class="container mx-auto px-4 sm:px-6 py-8 mt-8">
+        <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-10">
+            <!-- Big 5 Section -->
+            <section id="big-5" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-emerald-800 border-b-2 border-emerald-500 pb-2 section-title">The Big 5</h2>
+                <div class="flex flex-wrap -m-2 sm:-m-4 justify-center">
+
+                    <!-- African Buffalo -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="zec.jpeg" alt="African Buffalo">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">African Buffalo</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">Considered one of Africa's most dangerous animals due to its unpredictable and defensive nature. These powerful bovines can be found in large herds, creating an imposing sight across the plains of Kenya.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~1,100-2,000 lbs</li>
+                                    <li><strong>Height:</strong> ~4-5.6 ft (at the shoulder)</li>
+                                    <li><strong>Habitat:</strong> Savannas, woodlands, and floodplains</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="nxYatPDp8PA">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- African Elephant -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="img/Male African Elephant Walking by Mike Hill.jpeg" alt="African Elephant">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">African Elephant</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The largest land animal on Earth, African elephants are highly intelligent and social creatures. They live in close-knit family herds led by a matriarch and are known for their strong memory and complex communication.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~13,000 lbs</li>
+                                    <li><strong>Height:</strong> ~10-13 ft (at the shoulder)</li>
+                                    <li><strong>Habitat:</strong> Forests, savannas, and grasslands</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="Fk3VdpuFx0Q">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lion -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="a176bda6-938e-4357-a54d-7f6a0bc84c9e.jpeg" alt="Lion">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Lion</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The "King of the Savannah" and the only cat species that lives in groups, called prides. Lions are apex predators, with lionesses doing most of the hunting to provide for the pride.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~330-550 lbs</li>
+                                    <li><strong>Height:</strong> ~3.9 ft (at the shoulder)</li>
+                                    <li><strong>Habitat:</strong> Grasslands and savannas</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="rbrQ7ojDC-c">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leopard -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Cheetah facts.jpeg" alt="Leopard">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Leopard</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The most elusive of the big cats. Leopards are known for their incredible stealth and powerful climbing ability, often dragging their prey up into trees to keep it safe from other predators.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~65-200 lbs</li>
+                                    <li><strong>Height:</strong> ~2 ft (at the shoulder)</li>
+                                    <li><strong>Habitat:</strong> Forests, savannas, and mountains</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="8y2B1XgXwxo">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rhino -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="White Rhino _ Species _ Save the Rhino International.jpeg" alt="Rhinoceros">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Rhinoceros</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">An ancient and powerful herbivore, the rhinoceros is a critically endangered species. Their horn is not bone but compressed keratin, the same substance as human fingernails, making them a target for poaching.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~1,800-3,000 lbs</li>
+                                    <li><strong>Height:</strong> ~4-6 ft (at the shoulder)</li>
+                                    <li><strong>Habitat:</strong> Grasslands and savannas</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="wnpQpZDoH1s">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Birds Section -->
+            <section id="birds" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-emerald-800 border-b-2 border-emerald-500 pb-2 section-title">Birds</h2>
+                <div class="flex flex-wrap -m-2 sm:-m-4 justify-center">
+
+                    <!-- Lilac-breasted Roller -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Lilac-breasted roller bird -- ILoveNature Facebook….jpeg" alt="Lilac-breasted Roller">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Lilac-breasted Roller</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">Known for its vibrant plumage, this bird is famous for its acrobatic courtship display. Males fly high into the air and then descend in a fast, rocking flight, showing off their stunning colors.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~3.7 oz</li>
+                                    <li><strong>Length:</strong> ~14 inches</li>
+                                    <li><strong>Habitat:</strong> Open woodlands and savannas</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="6qeiUH_RNn8">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ostrich -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="ostrich.jpeg" alt="Ostrich">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Ostrich</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The world's largest flightless bird, Ostriches are incredibly fast runners and can deliver a powerful, forward-facing kick with their strong legs to defend themselves from predators like lions. They have the largest eye of any land animal.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~200-300 lbs</li>
+                                    <li><strong>Height:</strong> ~6-9 ft</li>
+                                    <li><strong>Habitat:</strong> Savannas and semi-arid plains</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="qxbxsTy3PPw">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Greater Flamingo -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Graces.jpeg" alt="Greater Flamingo">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Greater Flamingo</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The largest and most widespread species of flamingo, often seen in vast, pink flocks around Kenya's alkaline lakes. Their distinctive color comes from the carotenoid pigments in the algae and crustaceans they eat.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Height:</strong> ~4.7 ft</li>
+                                    <li><strong>Weight:</strong> ~4.4-8.8 lbs</li>
+                                    <li><strong>Habitat:</strong> Shallow lakes, lagoons, and estuaries</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="b2AN1cPn3zY">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Secretarybird -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Tall, fierce, and rocking eyeliner better than you….jpeg" alt="Secretarybird">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Secretarybird</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">A large, terrestrial bird of prey native to Africa. It is famous for its long, powerful legs, which it uses to stomp its prey—often venomous snakes—to death.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Height:</strong> ~4.3 ft</li>
+                                    <li><strong>Weight:</strong> ~5-9 lbs</li>
+                                    <li><strong>Habitat:</strong> Open grasslands and savannas</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="7itwHJiNRz4">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Marine Life Section -->
+            <section id="marine-life" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-emerald-800 border-b-2 border-emerald-500 pb-2 section-title">Marine Life</h2>
+                <div class="flex flex-wrap -m-2 sm:-m-4 justify-center">
+
+                    <!-- Green Sea Turtle -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="green totoise.jpeg" alt="Green Sea Turtle">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Green Sea Turtle</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">A majestic resident of Kenya's coast, these turtles are known for their incredible, long-distance migrations between feeding grounds and nesting beaches. They are named for the green fat under their shell, caused by their herbivorous diet.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~300-400 lbs</li>
+                                    <li><strong>Length:</strong> ~3-5 ft</li>
+                                    <li><strong>Habitat:</strong> Coastal waters and estuaries</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="WfHO8qaioLs">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Humpback Whale -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="719f2067-718e-4b10-a37a-05e4daa75832.jpeg" alt="Humpback Whale">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Humpback Whale</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">A gentle giant of the Indian Ocean, Humpback whales are famous for their acrobatic breaches and their long, complex "songs." Each whale has a unique pattern of markings on its tail flukes, acting as a unique fingerprint.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~55,000-88,000 lbs</li>
+                                    <li><strong>Length:</strong> ~40-50 ft</li>
+                                    <li><strong>Habitat:</strong> Oceans, migrating to coastal areas to breed</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="fBGq85Q2198">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dolphin -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Dolphins are so cute.jpeg" alt="Dolphin">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Dolphin</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">Highly intelligent and social marine mammals, dolphins live in groups called pods. They are known for their playful behavior, including leaping out of the water and riding the bow waves of boats. They communicate using a complex series of clicks and whistles.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~300-500 lbs</li>
+                                    <li><strong>Length:</strong> ~6-13 ft</li>
+                                    <li><strong>Habitat:</strong> Oceans and coastal waters</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="xWTWdLvA1P0">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Whale Shark -->
+                    <div class="gallery-item w-full sm:w-1/2 md:w-1/3 p-2 sm:p-4">
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden card-bg">
+                            <div class="image-container">
+                                <img src="Whale Shark in Turquoise Water.jpeg" alt="Whale Shark">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-lg text-emerald-900 card-title">Whale Shark</h3>
+                                <p class="text-sm text-gray-600 mb-2 card-text">The largest known living fish species. These gentle giants are filter feeders, consuming plankton and small fish by swimming with their mouths wide open. They are non-aggressive and a popular subject for marine tourism.</p>
+                                <ul class="text-xs text-gray-500 italic mb-4 space-y-1">
+                                    <li><strong>Weight:</strong> ~20,000-40,000 lbs</li>
+                                    <li><strong>Length:</strong> ~30-40 ft</li>
+                                    <li><strong>Habitat:</strong> Tropical oceans</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="did-you-know-btn bg-blue-500 text-white text-sm font-bold py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-300" data-video-id="BwZQowBkXOc">
+                                        Watch a Short Video
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-emerald-900 text-white py-6 mt-8 shadow-inner">
+        <div class="container mx-auto text-center px-4">
+            <p>&copy; 2023 Kenyan Wildlife Gallery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const backgroundMusic = document.getElementById('background-music');
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const didYouKnowButtons = document.querySelectorAll('.did-you-know-btn');
+            const header = document.getElementById('header');
+            const nav = document.getElementById('nav');
+            
+            // Initializing music after user interaction
+            let hasInteracted = false;
+            document.body.addEventListener('click', () => {
+                if (!hasInteracted) {
+                    backgroundMusic.play().catch(e => console.error("Audio playback failed:", e));
+                    hasInteracted = true;
+                }
+            }, { once: true });
+            
+            // Color changing logic
+            const colors = [
+                ['#065F46', '#047857'], // green
+                ['#312e81', '#4338ca'], // indigo
+                ['#581c87', '#7e22ce'], // purple
+                ['#c2410c', '#eab308']  // orange-yellow
+            ];
+            let colorIndex = 0;
+            
+            const changeColors = () => {
+                colorIndex = (colorIndex + 1) % colors.length;
+                const [startColor, endColor] = colors[colorIndex];
+                header.style.backgroundImage = `linear-gradient(to right, ${startColor}, ${endColor})`;
+                nav.style.backgroundColor = endColor;
+            };
+            
+            setInterval(changeColors, 5000); // Change colors every 5 seconds
+
+            // Dark Mode
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+            });
+            
+            // Search functionality
+            searchBtn.addEventListener('click', () => {
+                const query = searchInput.value;
+                if (query) {
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                }
+            });
+            
+            searchInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+            
+            // "Watch a Short Video" button functionality
+            didYouKnowButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const videoId = event.target.dataset.videoId;
+                    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+                });
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+            
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
